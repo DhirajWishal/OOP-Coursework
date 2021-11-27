@@ -7,6 +7,26 @@ public abstract class Driver {
     protected int mRacesWon;
 
     /**
+     * Default constructor.
+     */
+    public Driver() {
+
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name     The name of the driver.
+     * @param location The location of the driver,
+     * @param team     The team of the driver.
+     */
+    public Driver(String name, String location, String team) {
+        mName = name;
+        mLocation = location;
+        mTeam = team;
+    }
+
+    /**
      * Get the name of the driver.
      *
      * @return The name of the driver.

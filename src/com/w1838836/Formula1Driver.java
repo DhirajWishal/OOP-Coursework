@@ -5,7 +5,7 @@ public class Formula1Driver extends Driver {
     public static final int SECOND_POSITION = 0;
     public static final int THIRD_POSITION = 0;
 
-    private int[] mPositionsWon;
+    private int[] mPositionsWon = new int[3];
     private int mPoints = 0;
     private int mNumberOfRaces = 0;
 
@@ -13,7 +13,17 @@ public class Formula1Driver extends Driver {
      * Default constructor.
      */
     public Formula1Driver() {
-        mPositionsWon = new int[3];
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name     The name of the driver.
+     * @param location The location of the driver.
+     * @param team     The team of the driver.
+     */
+    public Formula1Driver(String name, String location, String team) {
+        super(name, location, team);
     }
 
     /**
