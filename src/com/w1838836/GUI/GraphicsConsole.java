@@ -5,19 +5,21 @@ import com.w1838836.Formula1ChampionshipManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GraphicsConsole {
     private final Formula1ChampionshipManager mManager = new Formula1ChampionshipManager();
     private final DriverStatisticsTable mDriverStatisticsTable = new DriverStatisticsTable();
+    private final Window mWindow = new Window();
 
     /**
      * Default constructor.
      */
     public GraphicsConsole() {
         // Create the window and layout.
-        Window window = new Window();
-        UILayout layout = new UILayout(window.getContentPane());
-        window.getContentPane().setLayout(layout);
+        UILayout layout = new UILayout(mWindow.getContentPane());
+        mWindow.getContentPane().setLayout(layout);
 
         // Create the buttons.
         RandomButton randomButton = new RandomButton();
@@ -32,7 +34,7 @@ public class GraphicsConsole {
         SearchField searchField = new SearchField();
         SearchLabel searchText = new SearchLabel();
         DriverNameLabel driverName = new DriverNameLabel();
-        
+
         final int searchTextWidth = searchText.getPreferredSize().width;
         final int probabilisticButtonWidth = probabilisticButton.getMinimumSize().width;
         final int searchButtonHeight = searchButton.getPreferredSize().height;
@@ -123,8 +125,27 @@ public class GraphicsConsole {
         // Setup tables.
         mDriverStatisticsTable.setRows(mManager.toArray(true));
 
-        window.setSize(1280, 720);
-        window.setVisible(true);
+        mWindow.setSize(1280, 720);
+        mWindow.setVisible(true);
+
+        // Add the window close even listener.
+        mWindow.addWindowListener(new WindowAdapter() {
+            /**
+             * Window closing event listener.
+             * @param windowEvent The window event.
+             */
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(mWindow,
+                        "Are you sure you want to close this window?", "Close Window?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+                    cleanup();
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     /**
@@ -158,6 +179,7 @@ public class GraphicsConsole {
     public void cleanup() {
         System.out.println("Exiting the application..");
         mManager.saveData(false);
+        mWindow.close();
         System.out.println("Thank you!");
     }
 }

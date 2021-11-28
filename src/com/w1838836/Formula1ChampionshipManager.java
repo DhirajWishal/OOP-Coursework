@@ -267,7 +267,6 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      * @param bStatus The status of the race. If true, it is inserted using the CMD, else its generated.
      */
     public void addRace(final boolean bStatus) {
-        System.out.println("Adding a new race...");
         mRandom.setSeed((new Date().getTime()));
         final int raceID = generateRaceID();
 
@@ -292,8 +291,6 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
             mRaces.add(new Race(raceID, new ArrayList<Driver>(mDrivers), Race.RaceStatus.INSERTED, new Date()));
         else
             mRaces.add(new Race(raceID, new ArrayList<Driver>(mDrivers), Race.RaceStatus.GENERATED, new Date()));
-
-        System.out.println("Added a new race.");
     }
 
     /**
@@ -336,7 +333,6 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      * The drivers will have a random staring position and depending on it, their final winning positions are calculated probabilistically.
      */
     public void addRaceProbabilistically() {
-        System.out.println("Adding a new race probabilistically...");
         mRandom.setSeed((new Date().getTime()));
         final int raceID = generateRaceID();
 
@@ -369,8 +365,6 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
         // Add this race.
         mRaces.add(new Race(raceID, new ArrayList<Driver>(mDrivers), Race.RaceStatus.GENERATED, new Date()));
-
-        System.out.println("Added a new race.");
     }
 
     /**
