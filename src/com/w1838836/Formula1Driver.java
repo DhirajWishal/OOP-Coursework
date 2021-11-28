@@ -84,40 +84,17 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      */
     public void updatePoints(int position) {
         switch (position) {
-            case 1:
-                mPoints += 25;
-                break;
-            case 2:
-                mPoints += 18;
-                break;
-            case 3:
-                mPoints += 15;
-                break;
-            case 4:
-                mPoints += 12;
-                break;
-            case 5:
-                mPoints += 10;
-                break;
-            case 6:
-                mPoints += 8;
-                break;
-            case 7:
-                mPoints += 6;
-                break;
-            case 8:
-                mPoints += 4;
-                break;
-            case 9:
-                mPoints += 2;
-                break;
-            case 10:
-                mPoints += 1;
-                break;
-            default:
-                break;
+            case 1 -> mPoints += 25;
+            case 2 -> mPoints += 18;
+            case 3 -> mPoints += 15;
+            case 4 -> mPoints += 12;
+            case 5 -> mPoints += 10;
+            case 6 -> mPoints += 8;
+            case 7 -> mPoints += 6;
+            case 8 -> mPoints += 4;
+            case 9 -> mPoints += 2;
+            case 10 -> mPoints += 1;
         }
-
     }
 
     /**

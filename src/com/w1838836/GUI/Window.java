@@ -10,4 +10,13 @@ public class Window extends JFrame {
     public Window() {
         super("Championship Manager");
     }
+
+    /**
+     * Create a window with a custom title.
+     *
+     * @param title The title of the window.
+     */
+    public Window(String title) {
+        super(title);
+    }
 }
