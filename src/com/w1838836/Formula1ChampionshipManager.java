@@ -1,13 +1,13 @@
 package com.w1838836;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-public class Formula1ChampionshipManager implements ChampionshipManager {
+public class Formula1ChampionshipManager implements ChampionshipManager, Serializable {
     private int mNumberOfCars;
     private int mNumberOfDrivers;
     private ArrayList<Formula1Driver> mDrivers = new ArrayList<>();
+    private Random mRandom = new Random();
     private static Scanner mScanner = new Scanner(System.in);
 
     /**
@@ -52,35 +52,44 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
     public static void run() {
         Formula1ChampionshipManager manager = new Formula1ChampionshipManager();
 
-        while (true) {
+        // Load the serialized data if possible.
+        manager.loadData(false);
+
+        boolean bShouldRun = true;
+        while (bShouldRun) {
             showMenu();
             Integer command = getCommand();
 
             switch (command) {
-                case 1:
-                    manager.createNewDriver();
-                    break;
-
-                case 2:
-                    manager.deleteDriver();
-                    break;
-
-                case 3:
-                    manager.changeDriver();
-                    break;
-
-                case 4:
-                    manager.displayStatistics();
-                    break;
+                case 1 -> manager.createNewDriver();
+                case 2 -> manager.deleteDriver();
+                case 3 -> manager.changeDriver();
+                case 4 -> manager.displayStatistics();
+                case 5 -> manager.displayDriverTable();
+                case 6 -> manager.addRace();
+                case 7 -> manager.saveData(true);
+                case 8 -> manager.loadData(true);
+                case 9 -> bShouldRun = false;
             }
         }
+
+        System.out.println("Exiting the application..");
+        manager.saveData(false);
+        System.out.println("Thank you!");
+    }
+
+    /**
+     * Utility function to print a separator.
+     */
+    public static void printSeparator() {
+        System.out.println("--------------------------------------------------");
     }
 
     /**
      * Display the menu.
      */
     public static void showMenu() {
-        System.out.println("--------------------------------------------------");
+        printSeparator();
         System.out.println("Formula 1 Championship Manager");
         System.out.println("Format: [Command]. [Description]");
         System.out.println();
@@ -92,7 +101,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
         System.out.println("6. Add a new race.");
         System.out.println("7. Save data.");
         System.out.println("8. Load data.");
-        System.out.println("--------------------------------------------------");
+        System.out.println("9. Exit program.");
+        printSeparator();
     }
 
     /**
@@ -104,11 +114,13 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
         while (true) {
             try {
                 System.out.print("Enter command: ");
-                Integer command = Integer.parseInt(mScanner.nextLine());
+                int command = Integer.parseInt(mScanner.nextLine());
 
                 // Validate the command and return if true.
-                if (command < 9 && command > 0)
+                if (command > 0 && command < 10) {
+                    printSeparator();
                     return command;
+                }
             } catch (NumberFormatException e) {
             }
 
@@ -121,6 +133,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
      * Create a new driver and add to the championship.
      */
     public void createNewDriver() {
+        System.out.println("Create a new driver option.");
+
         System.out.print("Enter the driver name: ");
         String name = mScanner.nextLine();
 
@@ -145,6 +159,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
      * Display information about all the registered drivers.
      */
     public void displayDrivers() {
+        System.out.println("Displaying drivers.");
         System.out.println("Index\tName\tLocation\tTeam");
         for (int i = 0; i < mDrivers.size(); i++) {
             Formula1Driver driver = mDrivers.get(i);
@@ -161,6 +176,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
      * Delete a driver from the manager.
      */
     public void deleteDriver() {
+        System.out.println("Delete driver option.");
         displayDrivers();
 
         System.out.print("Enter the index of the driver to delete: ");
@@ -181,6 +197,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
      * Change the driver of a given team.
      */
     public void changeDriver() {
+        System.out.println("Change driver option.");
         displayDrivers();
 
         System.out.print("Enter the index of the driver to change the team: ");
@@ -206,6 +223,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
      * Display the statistics of a selected driver.
      */
     public void displayStatistics() {
+        System.out.println("Displaying statistics.");
         displayDrivers();
 
         System.out.print("Enter the index of the driver to show the statistics: ");
@@ -229,6 +247,104 @@ public class Formula1ChampionshipManager implements ChampionshipManager {
             }
         } catch (NumberFormatException e) {
             System.out.println("Invalid driver index!");
+        }
+    }
+
+    /**
+     * Display the driver table.
+     */
+    public void displayDriverTable() {
+        System.out.println("Displaying driver table.");
+        printSeparator();
+
+        // Copy the driver information to a new array and sort it.
+        ArrayList<Formula1Driver> list = new ArrayList<>(mDrivers);
+        list.sort(Collections.reverseOrder());
+
+        // Print some driver statistics.
+        for (Formula1Driver driver : list) {
+            printSeparator();
+            System.out.println("Driver name:                 " + driver.getName());
+            System.out.println("Driver location:             " + driver.getLocation());
+            System.out.println("Driver team:                 " + driver.getTeam());
+            System.out.println("Number of points won:        " + driver.getPoints());
+            System.out.println("Number of first places won:  " + driver.getPositionsWon()[Formula1Driver.FIRST_POSITION]);
+            printSeparator();
+        }
+    }
+
+    /**
+     * Add a new race.
+     * All the data are generated automatically.
+     */
+    public void addRace() {
+        System.out.println("Adding a new race...");
+
+        HashSet<Integer> uniquePositions = new HashSet<>();
+        for (Formula1Driver driver : mDrivers) {
+            int number = mRandom.nextInt(1, mDrivers.size());
+            while (!uniquePositions.add(number))
+                number = mRandom.nextInt(1, mDrivers.size() + 1);
+
+            driver.updatePoints(number);
+            driver.incrementNumberOfRaces();
+
+            // Increment the position wins if its within 1 - 3.
+            if (number < 4)
+                driver.incrementPositionWin(number - 1);
+        }
+
+        System.out.println("Added a new race.");
+    }
+
+    /**
+     * Save the championship data to an external file.
+     * For this we use serialization.
+     *
+     * @param bShouldWarn Whether to warn the user if there was an error.
+     */
+    public void saveData(boolean bShouldWarn) {
+        try {
+            File temporaryFile = new File("Serialize/Formula1.bin");
+            temporaryFile.createNewFile();
+
+            FileOutputStream outputStream = new FileOutputStream(temporaryFile, false);
+            ObjectOutputStream serializeStream = new ObjectOutputStream(outputStream);
+
+            serializeStream.write(mNumberOfCars);
+            serializeStream.flush();
+            serializeStream.write(mNumberOfDrivers);
+            serializeStream.flush();
+            serializeStream.writeObject(mDrivers);
+            serializeStream.flush();
+            serializeStream.close();
+
+            System.out.println("Data successfully saved.");
+        } catch (IOException e) {
+            if (bShouldWarn)
+                System.out.println("Failed to save data!");
+        }
+    }
+
+    /**
+     * Load the data from the serialized file.
+     *
+     * @param bShouldWarn Boolean stating whether to warn if loading fails. If true, it will warn the user.
+     */
+    public void loadData(boolean bShouldWarn) {
+        try {
+            FileInputStream inputStream = new FileInputStream("Serialize/Formula1.bin");
+            ObjectInputStream serializeStream = new ObjectInputStream(inputStream);
+
+            mNumberOfCars = serializeStream.read();
+            mNumberOfDrivers = serializeStream.read();
+
+            mDrivers = (ArrayList<Formula1Driver>) serializeStream.readObject();
+
+            System.out.println("Data loaded successfully.");
+        } catch (IOException | ClassNotFoundException e) {
+            if (bShouldWarn)
+                System.out.println("Failed to save data!");
         }
     }
 }

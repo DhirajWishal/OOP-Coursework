@@ -1,6 +1,8 @@
 package com.w1838836;
 
-public class Formula1Driver extends Driver {
+import java.io.Serializable;
+
+public class Formula1Driver extends Driver implements Comparable<Formula1Driver>, Serializable {
     public static final int FIRST_POSITION = 0;
     public static final int SECOND_POSITION = 0;
     public static final int THIRD_POSITION = 0;
@@ -52,6 +54,9 @@ public class Formula1Driver extends Driver {
      */
     public void incrementPositionWin(int position) {
         mPositionsWon[position]++;
+
+        if (position == 0)
+            incrementRacesWon();
     }
 
     /**
@@ -131,5 +136,33 @@ public class Formula1Driver extends Driver {
      */
     public void setNumberOfRaces(int mNumberOfRaces) {
         this.mNumberOfRaces = mNumberOfRaces;
+    }
+
+    /**
+     * Increment the number of races the driver has run.
+     */
+    public void incrementNumberOfRaces() {
+        mNumberOfRaces++;
+    }
+
+    /**
+     * Overload of the Comparable<> interface's compare to function.
+     *
+     * @param formula1Driver The other formula 1 driver object to compare with.
+     * @return The comparison. If this is greater than the other, the return is grater than 0. If it's less than the other
+     * the return is less than 0. If the two are equal, the return is 0.
+     */
+    @Override
+    public int compareTo(Formula1Driver formula1Driver) {
+        if (mPoints > formula1Driver.mPoints)
+            return 1;
+        else if (mPoints < formula1Driver.mPoints)
+            return -1;
+        else if (mPositionsWon[FIRST_POSITION] > formula1Driver.mPositionsWon[FIRST_POSITION])
+            return 1;
+        else if (mPositionsWon[FIRST_POSITION] < formula1Driver.mPositionsWon[FIRST_POSITION])
+            return -1;
+
+        return 0;
     }
 }

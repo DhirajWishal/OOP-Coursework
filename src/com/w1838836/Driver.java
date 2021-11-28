@@ -1,6 +1,8 @@
 package com.w1838836;
 
-public abstract class Driver {
+import java.io.Serializable;
+
+public abstract class Driver implements Serializable {
     protected String mName;
     protected String mLocation;
     protected String mTeam;
