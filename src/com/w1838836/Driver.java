@@ -1,18 +1,20 @@
 package com.w1838836;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public abstract class Driver implements Serializable {
     protected String mName;
     protected String mLocation;
     protected String mTeam;
     protected int mRacesWon;
+    protected HashMap<Integer, Integer> mRaceMap;
 
     /**
      * Default constructor.
      */
     public Driver() {
-
+        mRaceMap = new HashMap<>();
     }
 
     /**
@@ -26,6 +28,7 @@ public abstract class Driver implements Serializable {
         mName = name;
         mLocation = location;
         mTeam = team;
+        mRaceMap = new HashMap<>();
     }
 
     /**
@@ -105,5 +108,25 @@ public abstract class Driver implements Serializable {
      */
     public void incrementRacesWon() {
         mRacesWon++;
+    }
+
+    /**
+     * Set the race information.
+     *
+     * @param race     The race ID of the race the driver participated in.
+     * @param position The position of the driver in the given race.
+     */
+    public void setRaceInfo(final Integer race, final int position) {
+        mRaceMap.put(race, position);
+    }
+
+    /**
+     * Get the race information.
+     *
+     * @param race The race ID to get the information from.
+     * @return The position the driver won.
+     */
+    public int getRaceInfo(final Integer race) {
+        return mRaceMap.get(race);
     }
 }

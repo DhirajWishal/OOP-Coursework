@@ -9,6 +9,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     private int mNumberOfDrivers;
     private ArrayList<Formula1Driver> mDrivers = new ArrayList<>();
     private ArrayList<Race> mRaces = new ArrayList<>();
+    private HashSet<Integer> mRaceIDs = new HashSet<>();
     private final Random mRandom = new Random();
     private static final Scanner mScanner = new Scanner(System.in);
 
@@ -47,39 +48,6 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     public void setNumberOfDrivers(int numberOfDrivers) {
         mNumberOfDrivers = numberOfDrivers;
     }
-
-    /**
-     * Run the championship.
-     */
-    public static void run() {
-        Formula1ChampionshipManager manager = new Formula1ChampionshipManager();
-
-        // Load the serialized data if possible.
-        manager.loadData(false);
-
-        boolean bShouldRun = true;
-        while (bShouldRun) {
-            showMenu();
-            Integer command = getCommand();
-
-            switch (command) {
-                case 1 -> manager.createNewDriver();
-                case 2 -> manager.deleteDriver();
-                case 3 -> manager.changeDriver();
-                case 4 -> manager.displayStatistics();
-                case 5 -> manager.displayDriverTable();
-                case 6 -> manager.addRace(true);
-                case 7 -> manager.saveData(true);
-                case 8 -> manager.loadData(true);
-                case 9 -> bShouldRun = false;
-            }
-        }
-
-        System.out.println("Exiting the application..");
-        manager.saveData(false);
-        System.out.println("Thank you!");
-    }
-
 
     /**
      * Utility function to print a separator.
@@ -280,6 +248,19 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     }
 
     /**
+     * Generate a new and unique race ID.
+     *
+     * @return The generated race ID.
+     */
+    private int generateRaceID() {
+        int raceID = mRandom.nextInt();
+        if (!mRaceIDs.add(raceID))
+            raceID = mRandom.nextInt();
+
+        return raceID;
+    }
+
+    /**
      * Add a new race.
      * All the data are generated automatically.
      *
@@ -287,7 +268,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      */
     public void addRace(boolean bStatus) {
         System.out.println("Adding a new race...");
-        mRandom.setSeed((new Time(0).getTime()));
+        mRandom.setSeed((new Date().getTime()));
+        int raceID = generateRaceID();
 
         HashSet<Integer> uniquePositions = new HashSet<>();
         for (Formula1Driver driver : mDrivers) {
@@ -301,13 +283,15 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
             // Increment the position wins if its within 1 - 3.
             if (number < 4)
                 driver.incrementPositionWin(number - 1);
+
+            driver.setRaceInfo(raceID, number);
         }
 
         // Add this race.
         if (bStatus)
-            mRaces.add(new Race(new ArrayList<Driver>(mDrivers), Race.RaceStatus.INSERTED, new Date()));
+            mRaces.add(new Race(raceID, new ArrayList<Driver>(mDrivers), Race.RaceStatus.INSERTED, new Date()));
         else
-            mRaces.add(new Race(new ArrayList<Driver>(mDrivers), Race.RaceStatus.GENERATED, new Date()));
+            mRaces.add(new Race(raceID, new ArrayList<Driver>(mDrivers), Race.RaceStatus.GENERATED, new Date()));
 
         System.out.println("Added a new race.");
     }
@@ -353,7 +337,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      */
     public void addRaceProbabilistically() {
         System.out.println("Adding a new race probabilistically...");
-        mRandom.setSeed((new Time(0).getTime()));
+        mRandom.setSeed((new Date().getTime()));
+        int raceID = generateRaceID();
 
         HashSet<Integer> uniquePositions = new HashSet<>();
         int upperBound = 0;
@@ -378,10 +363,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
             // Increment the position wins if its within 1 - 3.
             if (position < 4)
                 driver.incrementPositionWin(position - 1);
+
+            driver.setRaceInfo(raceID, position);
         }
 
         // Add this race.
-        mRaces.add(new Race(new ArrayList<Driver>(mDrivers), Race.RaceStatus.GENERATED, new Date()));
+        mRaces.add(new Race(raceID, new ArrayList<Driver>(mDrivers), Race.RaceStatus.GENERATED, new Date()));
 
         System.out.println("Added a new race.");
     }
@@ -408,6 +395,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
             serializeStream.flush();
             serializeStream.writeObject(mRaces);
             serializeStream.flush();
+            serializeStream.writeObject(mRaceIDs);
+            serializeStream.flush();
             serializeStream.close();
 
             System.out.println("Data successfully saved.");
@@ -432,11 +421,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
             mDrivers = (ArrayList<Formula1Driver>) serializeStream.readObject();
             mRaces = (ArrayList<Race>) serializeStream.readObject();
+            mRaceIDs = (HashSet<Integer>) serializeStream.readObject();
 
             System.out.println("Data loaded successfully.");
         } catch (IOException | ClassNotFoundException e) {
             if (bShouldWarn)
-                System.out.println("Failed to save data!");
+                System.out.println("Failed to load data!");
         }
     }
 

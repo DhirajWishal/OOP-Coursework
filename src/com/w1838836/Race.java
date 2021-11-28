@@ -10,6 +10,7 @@ public class Race implements Comparable<Race>, Serializable {
         GENERATED
     }
 
+    private int mID = 0;
     private ArrayList<Driver> mDrivers;
     private RaceStatus mStatus;
     private Date mDate;
@@ -17,14 +18,34 @@ public class Race implements Comparable<Race>, Serializable {
     /**
      * Constructor.
      *
+     * @param ID      The race ID.
      * @param drivers The drivers participated in the race.
      * @param status  The status of the race.
      * @param date    The date in which the race took place.
      */
-    public Race(ArrayList<Driver> drivers, RaceStatus status, Date date) {
+    public Race(int ID, ArrayList<Driver> drivers, RaceStatus status, Date date) {
+        mID = ID;
         mDrivers = drivers;
         mStatus = status;
         mDate = date;
+    }
+
+    /**
+     * Get the race ID.
+     *
+     * @return The race ID.
+     */
+    public int getID() {
+        return mID;
+    }
+
+    /**
+     * Set the race ID.
+     *
+     * @param mID The race ID.
+     */
+    public void setID(int mID) {
+        this.mID = mID;
     }
 
     /**

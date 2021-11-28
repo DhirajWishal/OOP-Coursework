@@ -2,6 +2,7 @@ package com.w1838836.GUI;
 
 import com.w1838836.Formula1ChampionshipManager;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -20,17 +21,28 @@ public class GraphicsConsole {
         RandomButton randomButton = new RandomButton();
         ProbabilisticButton probabilisticButton = new ProbabilisticButton();
         RaceDataButton raceDataButton = new RaceDataButton();
+        SearchButton searchButton = new SearchButton();
+
+        SearchResultsTable searchResultsTable = new SearchResultsTable();
+
+        JTextField searchField = new JTextField("Enter driver name to search");
 
         // Acts as columns.
         layout.setHorizontalGroup(
                 layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(UILayout.Alignment.LEADING)
                                 .addComponent(mDriverStatisticsTable.getTableHeader())
-                                .addComponent(mDriverStatisticsTable))
+                                .addComponent(mDriverStatisticsTable)
+                                .addComponent(searchField)
+                                .addComponent(searchResultsTable.getTableHeader())
+                                .addComponent(searchResultsTable)
+                        )
                         .addGroup(layout.createParallelGroup(UILayout.Alignment.LEADING)
                                 .addComponent(randomButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width)
                                 .addComponent(probabilisticButton)
-                                .addComponent(raceDataButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width))
+                                .addComponent(raceDataButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width)
+                                .addComponent(searchButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width)
+                        )
         );
 
         // Acts as rows.
@@ -43,7 +55,13 @@ public class GraphicsConsole {
                                 .addGroup(layout.createSequentialGroup()
                                         .addComponent(randomButton)
                                         .addComponent(probabilisticButton)
-                                        .addComponent(raceDataButton)))
+                                        .addComponent(raceDataButton)
+                                        .addComponent(searchButton)
+                                )
+                        )
+                        .addComponent(searchField)
+                        .addComponent(searchResultsTable.getTableHeader())
+                        .addComponent(searchResultsTable)
         );
 
         // Add the action listeners as lambdas.
@@ -66,6 +84,10 @@ public class GraphicsConsole {
             raceInfoWindow.add(table, BorderLayout.CENTER);
             raceInfoWindow.setSize(table.getPreferredSize());
             raceInfoWindow.setVisible(true);
+        });
+
+        searchButton.addActionListener((ActionEvent e) -> {
+            searchResultsTable.searchAndDisplay(searchField.getText(), mManager.getRaces());
         });
 
         // Load the serialized data if possible.

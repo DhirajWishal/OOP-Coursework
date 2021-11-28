@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class Formula1Driver extends Driver implements Comparable<Formula1Driver>, Serializable {
     public static final int FIRST_POSITION = 0;
-    public static final int SECOND_POSITION = 0;
-    public static final int THIRD_POSITION = 0;
+    public static final int SECOND_POSITION = 1;
+    public static final int THIRD_POSITION = 2;
 
-    private int[] mPositionsWon = new int[3];
+    private final int[] mPositionsWon = new int[3];
     private int mPoints = 0;
     private int mNumberOfRaces = 0;
 
