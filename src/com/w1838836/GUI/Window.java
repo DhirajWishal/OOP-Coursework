@@ -9,6 +9,9 @@ public class Window extends JFrame {
      */
     public Window() {
         super("Championship Manager");
+        
+        // This will make sure that the frame will get disposed when closed.
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -16,7 +19,10 @@ public class Window extends JFrame {
      *
      * @param title The title of the window.
      */
-    public Window(String title) {
+    public Window(final String title) {
         super(title);
+
+        // This will make sure that the frame will get disposed when closed.
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 }

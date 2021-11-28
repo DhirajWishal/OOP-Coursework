@@ -4,7 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UILayout extends GroupLayout {
-    public UILayout(Container host) {
+
+    /**
+     * Constructor.
+     *
+     * @param host The host container.
+     */
+    public UILayout(final Container host) {
         super(host);
 
         setAutoCreateGaps(true);

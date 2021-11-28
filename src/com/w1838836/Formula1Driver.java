@@ -24,7 +24,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      * @param location The location of the driver.
      * @param team     The team of the driver.
      */
-    public Formula1Driver(String name, String location, String team) {
+    public Formula1Driver(final String name, final String location, final String team) {
         super(name, location, team);
     }
 
@@ -43,7 +43,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      * @param position     The position won.
      * @param numberOfWins The number of wins.
      */
-    public void setPosition(int position, int numberOfWins) {
+    public void setPosition(final int position, final int numberOfWins) {
         mPositionsWon[position] = numberOfWins;
     }
 
@@ -52,7 +52,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      *
      * @param position The position won.
      */
-    public void incrementPositionWin(int position) {
+    public void incrementPositionWin(final int position) {
         mPositionsWon[position]++;
 
         if (position == 0)
@@ -73,7 +73,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      *
      * @param mPoints The number of points to set.
      */
-    public void setPoints(int mPoints) {
+    public void setPoints(final int mPoints) {
         this.mPoints = mPoints;
     }
 
@@ -82,7 +82,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      *
      * @param position The position won.
      */
-    public void updatePoints(int position) {
+    public void updatePoints(final int position) {
         switch (position) {
             case 1 -> mPoints += 25;
             case 2 -> mPoints += 18;
@@ -111,7 +111,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      *
      * @param mNumberOfRaces The number of races won.
      */
-    public void setNumberOfRaces(int mNumberOfRaces) {
+    public void setNumberOfRaces(final int mNumberOfRaces) {
         this.mNumberOfRaces = mNumberOfRaces;
     }
 
@@ -130,7 +130,7 @@ public class Formula1Driver extends Driver implements Comparable<Formula1Driver>
      * the return is less than 0. If the two are equal, the return is 0.
      */
     @Override
-    public int compareTo(Formula1Driver formula1Driver) {
+    public int compareTo(final Formula1Driver formula1Driver) {
         if (mPoints > formula1Driver.mPoints)
             return 1;
         else if (mPoints < formula1Driver.mPoints)

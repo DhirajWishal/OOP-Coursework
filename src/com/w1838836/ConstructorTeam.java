@@ -17,7 +17,7 @@ public class ConstructorTeam {
      *
      * @param driver The driver to be assigned.
      */
-    public void setDriver(Driver driver) {
+    public void setDriver(final Driver driver) {
         mDriver = driver;
     }
 }

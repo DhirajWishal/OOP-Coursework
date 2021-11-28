@@ -20,7 +20,7 @@ public class DriverStatisticsTable extends JTable {
         setModel(mModel);
 
         // Set the column titles.
-        String[] titles = {"Name", "Location", "Team", "Points", "# First places", "# Second places", "# Third places", "# Of races"};
+        final String[] titles = {"Name", "Location", "Team", "Points", "# First places", "# Second places", "# Third places", "# Of races"};
         for (String title : titles)
             mModel.addColumn(title);
 
@@ -65,7 +65,7 @@ public class DriverStatisticsTable extends JTable {
      *
      * @param rows The row data to set.
      */
-    public void setRows(String[][] rows) {
+    public void setRows(final String[][] rows) {
         mModel.setRowCount(0);
         for (String[] row : rows)
             mModel.addRow(row);

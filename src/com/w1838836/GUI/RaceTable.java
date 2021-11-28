@@ -9,14 +9,15 @@ public class RaceTable extends JTable {
     /**
      * Default constructor.
      */
-    public RaceTable(String[][] rows) {
+    public RaceTable(final String[][] rows) {
         setModel(mModel);
 
         // Set the column titles.
-        String[] titles = {"Date", "Status (Type)"};
+        final String[] titles = {"Date", "Status (Type)"};
         for (String title : titles)
             mModel.addColumn(title);
 
+        // Insert the rows.
         for (String[] row : rows)
             mModel.addRow(row);
     }

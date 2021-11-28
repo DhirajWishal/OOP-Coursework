@@ -17,7 +17,7 @@ public class SearchResultsTable extends JTable {
         setModel(mModel);
 
         // Set the titles.
-        String[] titles = {"Race date", "Race status (type)", "Position"};
+        final String[] titles = {"Race date", "Race status (type)", "Position"};
         for (String title : titles)
             mModel.addColumn(title);
     }
@@ -28,8 +28,8 @@ public class SearchResultsTable extends JTable {
      * @param name  The name of the driver.
      * @param races The races that took place in this season.
      */
-    public void searchAndDisplay(String name, ArrayList<Race> races) {
-        mModel.setRowCount(0);
+    public void searchAndDisplay(final String name, final ArrayList<Race> races) {
+        clear();
 
         for (Race race : races) {
             for (Driver driver : race.getDrivers()) {
@@ -45,5 +45,12 @@ public class SearchResultsTable extends JTable {
                 }
             }
         }
+    }
+
+    /**
+     * Clear the table.
+     */
+    public void clear() {
+        mModel.setRowCount(0);
     }
 }

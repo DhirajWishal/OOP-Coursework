@@ -24,7 +24,7 @@ public abstract class Driver implements Serializable {
      * @param location The location of the driver,
      * @param team     The team of the driver.
      */
-    public Driver(String name, String location, String team) {
+    public Driver(final String name, final String location, final String team) {
         mName = name;
         mLocation = location;
         mTeam = team;
@@ -45,7 +45,7 @@ public abstract class Driver implements Serializable {
      *
      * @param name The name to set.
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         mName = name;
     }
 
@@ -63,7 +63,7 @@ public abstract class Driver implements Serializable {
      *
      * @param location The location of the driver.
      */
-    public void setLocation(String location) {
+    public void setLocation(final String location) {
         mLocation = location;
     }
 
@@ -81,7 +81,7 @@ public abstract class Driver implements Serializable {
      *
      * @param team The team name to set.
      */
-    public void setTeam(String team) {
+    public void setTeam(final String team) {
         mTeam = team;
     }
 
@@ -99,7 +99,7 @@ public abstract class Driver implements Serializable {
      *
      * @param number The number of races to set.
      */
-    public void setRacesWon(int number) {
+    public void setRacesWon(final int number) {
         mRacesWon = number;
     }
 

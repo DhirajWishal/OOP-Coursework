@@ -14,18 +14,28 @@ public class GraphicsConsole {
      * Default constructor.
      */
     public GraphicsConsole() {
+        // Create the window and layout.
         Window window = new Window();
         UILayout layout = new UILayout(window.getContentPane());
         window.getContentPane().setLayout(layout);
 
+        // Create the buttons.
         RandomButton randomButton = new RandomButton();
         ProbabilisticButton probabilisticButton = new ProbabilisticButton();
         RaceDataButton raceDataButton = new RaceDataButton();
         SearchButton searchButton = new SearchButton();
 
+        // Create the search results table.
         SearchResultsTable searchResultsTable = new SearchResultsTable();
 
-        JTextField searchField = new JTextField("Enter driver name to search");
+        // Create the text fields.
+        SearchField searchField = new SearchField();
+        SearchLabel searchText = new SearchLabel();
+        DriverNameLabel driverName = new DriverNameLabel();
+        
+        final int searchTextWidth = searchText.getPreferredSize().width;
+        final int probabilisticButtonWidth = probabilisticButton.getMinimumSize().width;
+        final int searchButtonHeight = searchButton.getPreferredSize().height;
 
         // Acts as columns.
         layout.setHorizontalGroup(
@@ -33,15 +43,19 @@ public class GraphicsConsole {
                         .addGroup(layout.createParallelGroup(UILayout.Alignment.LEADING)
                                 .addComponent(mDriverStatisticsTable.getTableHeader())
                                 .addComponent(mDriverStatisticsTable)
-                                .addComponent(searchField)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(searchText, searchTextWidth, searchTextWidth, searchTextWidth)
+                                        .addComponent(searchField)
+                                )
+                                .addComponent(driverName)
                                 .addComponent(searchResultsTable.getTableHeader())
                                 .addComponent(searchResultsTable)
                         )
                         .addGroup(layout.createParallelGroup(UILayout.Alignment.LEADING)
-                                .addComponent(randomButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width)
+                                .addComponent(randomButton, probabilisticButtonWidth, probabilisticButtonWidth, probabilisticButtonWidth)
                                 .addComponent(probabilisticButton)
-                                .addComponent(raceDataButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width)
-                                .addComponent(searchButton, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width, probabilisticButton.getMinimumSize().width)
+                                .addComponent(raceDataButton, probabilisticButtonWidth, probabilisticButtonWidth, probabilisticButtonWidth)
+                                .addComponent(searchButton, probabilisticButtonWidth, probabilisticButtonWidth, probabilisticButtonWidth)
                         )
         );
 
@@ -49,17 +63,22 @@ public class GraphicsConsole {
         layout.setVerticalGroup(
                 layout.createSequentialGroup()
                         .addGroup(layout.createSequentialGroup()
-                                .addComponent(mDriverStatisticsTable.getTableHeader()))
+                                .addComponent(mDriverStatisticsTable.getTableHeader())
+                        )
                         .addGroup(layout.createParallelGroup(UILayout.Alignment.LEADING)
                                 .addComponent(mDriverStatisticsTable)
                                 .addGroup(layout.createSequentialGroup()
                                         .addComponent(randomButton)
                                         .addComponent(probabilisticButton)
                                         .addComponent(raceDataButton)
-                                        .addComponent(searchButton)
                                 )
                         )
-                        .addComponent(searchField)
+                        .addGroup(layout.createParallelGroup(UILayout.Alignment.LEADING)
+                                .addComponent(searchText, searchButtonHeight, searchButtonHeight, searchButtonHeight)
+                                .addComponent(searchField, searchButtonHeight, searchButtonHeight, searchButtonHeight)
+                                .addComponent(searchButton, searchButtonHeight, searchButtonHeight, searchButtonHeight)
+                        )
+                        .addComponent(driverName)
                         .addComponent(searchResultsTable.getTableHeader())
                         .addComponent(searchResultsTable)
         );
@@ -87,7 +106,15 @@ public class GraphicsConsole {
         });
 
         searchButton.addActionListener((ActionEvent e) -> {
-            searchResultsTable.searchAndDisplay(searchField.getText(), mManager.getRaces());
+            final String textField = searchField.getText();
+
+            if (textField.length() > 0) {
+                driverName.setText("Search results for: " + textField);
+                searchResultsTable.searchAndDisplay(searchField.getText(), mManager.getRaces());
+            } else {
+                driverName.setText("");
+                searchResultsTable.clear();
+            }
         });
 
         // Load the serialized data if possible.
