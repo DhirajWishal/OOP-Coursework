@@ -78,6 +78,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
         System.out.println("Thank you!");
     }
 
+
     /**
      * Utility function to print a separator.
      */
@@ -346,5 +347,37 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
             if (bShouldWarn)
                 System.out.println("Failed to save data!");
         }
+    }
+
+    /**
+     * Pack the array list content to a 2D raw array.
+     *
+     * @param bShouldSort Whether to sort and store the array.
+     * @return The packed 2D array.
+     */
+    public String[][] toArray(boolean bShouldSort) {
+        // Copy the driver data.
+        ArrayList<Formula1Driver> list = new ArrayList<>(mDrivers);
+
+        // Sort the array if necessary.
+        if (bShouldSort)
+            list.sort(Collections.reverseOrder());
+
+        // Create and copy the content to the string array.
+        String[][] array = new String[mDrivers.size()][8];
+        for (int i = 0; i < list.size(); i++) {
+            Formula1Driver driver = list.get(i);
+
+            array[i][0] = driver.getName();
+            array[i][1] = driver.getLocation();
+            array[i][2] = driver.getTeam();
+            array[i][3] = String.valueOf(driver.getPoints());
+            array[i][4] = String.valueOf(driver.getPositionsWon()[Formula1Driver.FIRST_POSITION]);
+            array[i][5] = String.valueOf(driver.getPositionsWon()[Formula1Driver.SECOND_POSITION]);
+            array[i][6] = String.valueOf(driver.getPositionsWon()[Formula1Driver.THIRD_POSITION]);
+            array[i][7] = String.valueOf(driver.getNumberOfRaces());
+        }
+
+        return array;
     }
 }
