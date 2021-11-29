@@ -1,5 +1,7 @@
 package com.w1838836.GUI;
 
+import com.w1838836.ChampionshipFactory;
+import com.w1838836.ChampionshipManager;
 import com.w1838836.Formula1ChampionshipManager;
 
 import javax.swing.*;
@@ -9,7 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class GraphicsConsole {
-    private final Formula1ChampionshipManager mManager = new Formula1ChampionshipManager();
+    private final ChampionshipManager mManager;
     private final DriverStatisticsTable mDriverStatisticsTable = new DriverStatisticsTable();
     private final Window mWindow = new Window();
 
@@ -17,6 +19,9 @@ public class GraphicsConsole {
      * Default constructor.
      */
     public GraphicsConsole() {
+        // Create the manager.
+        mManager = ChampionshipFactory.createManager("Formula 1");
+
         // Create the window and layout.
         UILayout layout = new UILayout(mWindow.getContentPane());
         mWindow.getContentPane().setLayout(layout);
@@ -99,7 +104,7 @@ public class GraphicsConsole {
         raceDataButton.addActionListener((ActionEvent e) -> {
             RaceTable table = new RaceTable(mManager.raceToArray());
 
-            Window raceInfoWindow = new Window("Race data");
+            Window raceInfoWindow = new Window("Race Data");
             raceInfoWindow.setLayout(new BorderLayout());
             raceInfoWindow.add(table.getTableHeader(), BorderLayout.NORTH);
             raceInfoWindow.add(table, BorderLayout.CENTER);
@@ -154,8 +159,8 @@ public class GraphicsConsole {
     public void run() {
         boolean bShouldRun = true;
         while (bShouldRun) {
-            Formula1ChampionshipManager.showMenu();
-            Integer command = Formula1ChampionshipManager.getCommand();
+            mManager.showMenu();
+            final int command = mManager.getCommand();
 
             switch (command) {
                 case 1 -> mManager.createNewDriver();
