@@ -9,4 +9,11 @@ public class DriverNameLabel extends JLabel {
      */
     public DriverNameLabel() {
     }
+
+    /**
+     * Clear the stored text.
+     */
+    public void clear() {
+        setText("");
+    }
 }

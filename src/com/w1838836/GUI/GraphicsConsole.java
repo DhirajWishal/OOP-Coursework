@@ -34,7 +34,7 @@ public class GraphicsConsole {
         SearchButton searchButton = new SearchButton();
 
         // Create the search results table.
-        SearchResultsTable searchResultsTable = new SearchResultsTable();
+        SearchResultsTable searchResultsTable = new SearchResultsTable(mWindow);
 
         // Create the text fields.
         SearchField searchField = new SearchField();
@@ -115,12 +115,15 @@ public class GraphicsConsole {
 
         searchButton.addActionListener((ActionEvent e) -> {
             String textField = searchField.getText();
+            searchField.clear();
 
             if (textField.length() > 0) {
-                driverName.setText("Search results for: " + textField);
-                searchResultsTable.searchAndDisplay(searchField.getText(), mManager.getRaces());
+                if (searchResultsTable.searchAndDisplay(searchField.getText(), mManager.getRaces()))
+                    driverName.setText("Search results for: " + textField);
+                else
+                    driverName.clear();
             } else {
-                driverName.setText("");
+                driverName.clear();
                 searchResultsTable.clear();
             }
         });

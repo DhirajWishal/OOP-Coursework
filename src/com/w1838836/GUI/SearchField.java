@@ -9,4 +9,11 @@ public class SearchField extends JTextField {
      */
     public SearchField() {
     }
+
+    /**
+     * Clear the stored text.
+     */
+    public void clear() {
+        setText("");
+    }
 }
