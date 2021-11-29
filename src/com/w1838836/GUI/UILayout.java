@@ -10,7 +10,7 @@ public class UILayout extends GroupLayout {
      *
      * @param host The host container.
      */
-    public UILayout(final Container host) {
+    public UILayout(Container host) {
         super(host);
 
         setAutoCreateGaps(true);

@@ -4,21 +4,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class RaceTable extends JTable {
-    private final DefaultTableModel mModel = new DefaultTableModel();
-
     /**
      * Default constructor.
      */
-    public RaceTable(final String[][] rows) {
-        setModel(mModel);
+    public RaceTable(String[][] rows) {
+        DefaultTableModel model = new DefaultTableModel();
+        setModel(model);
 
         // Set the column titles.
-        final String[] titles = {"Date", "Status (Type)"};
+        String[] titles = {"Date", "Status (Type)"};
         for (String title : titles)
-            mModel.addColumn(title);
+            model.addColumn(title);
 
         // Insert the rows.
         for (String[] row : rows)
-            mModel.addRow(row);
+            model.addRow(row);
     }
 }

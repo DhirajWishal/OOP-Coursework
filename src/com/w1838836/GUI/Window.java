@@ -19,7 +19,7 @@ public class Window extends JFrame {
      *
      * @param title The title of the window.
      */
-    public Window(final String title) {
+    public Window(String title) {
         super(title);
 
         // This will make sure that the frame will get disposed when closed.

@@ -10,8 +10,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     private ArrayList<Formula1Driver> mDrivers = new ArrayList<>();
     private ArrayList<Race> mRaces = new ArrayList<>();
     private HashSet<Integer> mRaceIDs = new HashSet<>();
-    private final Random mRandom = new Random();
-    private static final Scanner mScanner = new Scanner(System.in);
+    private Random mRandom = new Random();
+    private static Scanner mScanner = new Scanner(System.in);
 
     /**
      * Get the number of cars.
@@ -27,7 +27,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      *
      * @param numberOfCars The number of cars to set.
      */
-    public void setNumberOfCars(final int numberOfCars) {
+    public void setNumberOfCars(int numberOfCars) {
         mNumberOfCars = numberOfCars;
     }
 
@@ -45,7 +45,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      *
      * @param numberOfDrivers The number of drivers to set.
      */
-    public void setNumberOfDrivers(final int numberOfDrivers) {
+    public void setNumberOfDrivers(int numberOfDrivers) {
         mNumberOfDrivers = numberOfDrivers;
     }
 
@@ -87,7 +87,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
         while (true) {
             try {
                 System.out.print("Enter command: ");
-                final int command = Integer.parseInt(mScanner.nextLine());
+                int command = Integer.parseInt(mScanner.nextLine());
 
                 // Validate the command and return if true.
                 if (command > 0 && command < 10) {
@@ -127,6 +127,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
         mDrivers.add(new Formula1Driver(name, location, team));
         mNumberOfDrivers++;
+        mNumberOfCars++;
     }
 
     /**
@@ -137,7 +138,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
         System.out.println("Displaying drivers.");
         System.out.println("Index\tName\tLocation\tTeam");
         for (int i = 0; i < mDrivers.size(); i++) {
-            final Formula1Driver driver = mDrivers.get(i);
+            Formula1Driver driver = mDrivers.get(i);
 
             System.out.print(i + "\t");
             System.out.print(driver.getName() + "\t");
@@ -157,12 +158,14 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
         System.out.print("Enter the index of the driver to delete: ");
         try {
-            final int index = Integer.parseInt(mScanner.nextLine());
+            int index = Integer.parseInt(mScanner.nextLine());
 
             // Validate the index and remove the driver.
             if (index >= 0 && index < mDrivers.size()) {
                 mDrivers.remove(index);
-                mNumberOfDrivers++;
+
+                mNumberOfDrivers--;
+                mNumberOfCars--;
 
                 System.out.println("Driver removed!");
             }
@@ -181,7 +184,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
         System.out.print("Enter the index of the driver to change the team: ");
         try {
-            final int index = Integer.parseInt(mScanner.nextLine());
+            int index = Integer.parseInt(mScanner.nextLine());
 
             // Validate the index and remove the driver.
             if (index >= 0 && index < mDrivers.size()) {
@@ -208,12 +211,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
         System.out.print("Enter the index of the driver to show the statistics: ");
         try {
-            final int index = Integer.parseInt(mScanner.nextLine());
+            int index = Integer.parseInt(mScanner.nextLine());
 
             // Validate the index and remove the driver.
             if (index >= 0 && index < mDrivers.size()) {
                 // Get the formula 1 driver.
-                final Formula1Driver driver = (Formula1Driver) mDrivers.get(index);
+                Formula1Driver driver = (Formula1Driver) mDrivers.get(index);
 
                 System.out.println("Driver index:                " + index);
                 System.out.println("Driver name:                 " + driver.getName());
@@ -239,11 +242,11 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
         printSeparator();
 
         // Copy the driver information to a new array and sort it.
-        final ArrayList<Formula1Driver> list = new ArrayList<>(mDrivers);
+        ArrayList<Formula1Driver> list = new ArrayList<>(mDrivers);
         list.sort(Collections.reverseOrder());
 
         // Print some driver statistics.
-        for (final Formula1Driver driver : list) {
+        for (Formula1Driver driver : list) {
             printSeparator();
             System.out.println("Driver name:                 " + driver.getName());
             System.out.println("Driver location:             " + driver.getLocation());
@@ -274,12 +277,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      * @param bStatus The status of the race. If true, it is inserted using the CMD, else its generated.
      */
     @Override
-    public void addRace(final boolean bStatus) {
+    public void addRace(boolean bStatus) {
         mRandom.setSeed((new Date().getTime()));
-        final int raceID = generateRaceID();
+        int raceID = generateRaceID();
 
         HashSet<Integer> uniquePositions = new HashSet<>();
-        for (final Formula1Driver driver : mDrivers) {
+        for (Formula1Driver driver : mDrivers) {
             int number = mRandom.nextInt(1, mDrivers.size());
             while (!uniquePositions.add(number))
                 number = mRandom.nextInt(1, mDrivers.size() + 1);
@@ -307,7 +310,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      * @param position The position of the driver.
      * @return The winning probability.
      */
-    private double getProbability(final int position) {
+    private double getProbability(int position) {
         double probability = 0;
         switch (position) {
             case 1 -> probability = 0.4;
@@ -327,8 +330,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      * @param probability The probability to check.
      * @return Whether a probability was successful.
      */
-    private boolean checkProbability(final double probability) {
-        final int randomNumber = mRandom.nextInt(0, 100);
+    private boolean checkProbability(double probability) {
+        int randomNumber = mRandom.nextInt(0, 100);
         for (int i = 0; i < (int) probability * 100; i++)
             if (i == randomNumber)
                 return true;
@@ -338,7 +341,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
 
     /**
      * Add a race probabilistically.
-     * The drivers will have a random staring position and depending on it, their final winning positions are calculated probabilistically.
+     * The drivers will have a random staring position and depending on it, their winning positions are calculated probabilistically.
      * <p>
      * The algorithm works by first assigning each driver his/her starting position, and their respective probability of winning. These
      * drivers are then added to a container and stored to compete. Then later we test each driver's probability of winning using another
@@ -349,9 +352,9 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     public void addRaceProbabilistically() {
         mRandom.setSeed((new Date().getTime()));
 
-        final int raceID = generateRaceID();
-        final HashSet<Integer> uniquePositions = new HashSet<>();
-        final ArrayList<ProbabilityContainer> probabilistic = new ArrayList<>();
+        int raceID = generateRaceID();
+        HashSet<Integer> uniquePositions = new HashSet<>();
+        ArrayList<ProbabilityContainer> probabilistic = new ArrayList<>();
 
         // Get the positions of all the drivers.
         for (int i = 0; i < mDrivers.size(); i++) {
@@ -367,10 +370,10 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
         boolean bSomeoneWon;
         while (!probabilistic.isEmpty()) {
             bSomeoneWon = false;
-            for (final ProbabilityContainer container : probabilistic) {
+            for (ProbabilityContainer container : probabilistic) {
                 // Check if the driver won.
                 if (checkProbability(container.getProbability())) {
-                    final Formula1Driver driver = (Formula1Driver) container.getDriver();
+                    Formula1Driver driver = (Formula1Driver) container.getDriver();
 
                     driver.updatePoints(position);
                     driver.incrementNumberOfRaces();
@@ -394,13 +397,13 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
                 ProbabilityContainer maximum = new ProbabilityContainer();
 
                 // Find the maximum.
-                for (final ProbabilityContainer container : probabilistic) {
+                for (ProbabilityContainer container : probabilistic) {
                     if (maximum.compareTo(container) < 0)
                         maximum = container;
                 }
 
                 // Take the maximum driver as the winner.
-                final Formula1Driver driver = (Formula1Driver) maximum.getDriver();
+                Formula1Driver driver = (Formula1Driver) maximum.getDriver();
 
                 driver.updatePoints(position);
                 driver.incrementNumberOfRaces();
@@ -430,11 +433,11 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     @Override
     public void saveData(boolean bShouldWarn) {
         try {
-            final File temporaryFile = new File("Serialize/Formula1.bin");
+            File temporaryFile = new File("Serialize/Formula1.bin");
             temporaryFile.createNewFile();
 
-            final FileOutputStream outputStream = new FileOutputStream(temporaryFile, false);
-            final ObjectOutputStream serializeStream = new ObjectOutputStream(outputStream);
+            FileOutputStream outputStream = new FileOutputStream(temporaryFile, false);
+            ObjectOutputStream serializeStream = new ObjectOutputStream(outputStream);
 
             serializeStream.write(mNumberOfCars);
             serializeStream.flush();
@@ -463,8 +466,8 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     @Override
     public void loadData(boolean bShouldWarn) {
         try {
-            final FileInputStream inputStream = new FileInputStream("Serialize/Formula1.bin");
-            final ObjectInputStream serializeStream = new ObjectInputStream(inputStream);
+            FileInputStream inputStream = new FileInputStream("Serialize/Formula1.bin");
+            ObjectInputStream serializeStream = new ObjectInputStream(inputStream);
 
             mNumberOfCars = serializeStream.read();
             mNumberOfDrivers = serializeStream.read();
@@ -487,18 +490,18 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      * @return The packed 2D array.
      */
     @Override
-    public String[][] toArray(final boolean bShouldSort) {
+    public String[][] toArray(boolean bShouldSort) {
         // Copy the driver data.
-        final ArrayList<Formula1Driver> list = new ArrayList<>(mDrivers);
+        ArrayList<Formula1Driver> list = new ArrayList<>(mDrivers);
 
         // Sort the array if necessary.
         if (bShouldSort)
             list.sort(Collections.reverseOrder());
 
         // Create and copy the content to the string array.
-        final String[][] array = new String[mDrivers.size()][8];
+        String[][] array = new String[mDrivers.size()][8];
         for (int i = 0; i < list.size(); i++) {
-            final Formula1Driver driver = list.get(i);
+            Formula1Driver driver = list.get(i);
 
             array[i][0] = driver.getName();
             array[i][1] = driver.getLocation();
@@ -531,12 +534,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     @Override
     public String[][] raceToArray() {
         // Create and sort the array.
-        final ArrayList<Race> list = new ArrayList<>(mRaces);
+        ArrayList<Race> list = new ArrayList<>(mRaces);
         list.sort(Collections.reverseOrder());
 
-        final String[][] array = new String[mRaces.size()][2];
+        String[][] array = new String[mRaces.size()][2];
         for (int i = 0; i < list.size(); i++) {
-            final Race race = mRaces.get(i);
+            Race race = mRaces.get(i);
 
             array[i][0] = race.getDate().toString();
             array[i][1] = race.getStatus().toString();

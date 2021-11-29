@@ -21,7 +21,7 @@ public class ProbabilityContainer implements Comparable<ProbabilityContainer> {
      * @param index       The driver index.
      * @param probability The winning probability.
      */
-    public ProbabilityContainer(final Driver driver, final int index, final double probability) {
+    public ProbabilityContainer(Driver driver, int index, double probability) {
         mDriver = driver;
         mIndex = index;
         mProbability = probability;
@@ -37,30 +37,12 @@ public class ProbabilityContainer implements Comparable<ProbabilityContainer> {
     }
 
     /**
-     * Set the driver.
-     *
-     * @param driver The driver.
-     */
-    public void setDriver(final Driver driver) {
-        mDriver = driver;
-    }
-
-    /**
      * Get the driver index.
      *
      * @return The index.
      */
     public int getIndex() {
         return mIndex;
-    }
-
-    /**
-     * Set the driver index.
-     *
-     * @param index The index to set.
-     */
-    public void setIndex(final int index) {
-        mIndex = index;
     }
 
     /**
@@ -73,22 +55,13 @@ public class ProbabilityContainer implements Comparable<ProbabilityContainer> {
     }
 
     /**
-     * Set the driver's winning probability.
-     *
-     * @param probability The probability.
-     */
-    public void setProbability(final double probability) {
-        mProbability = probability;
-    }
-
-    /**
      * Compare to function override.
      *
      * @param o The other object.
      * @return The compared result.
      */
     @Override
-    public int compareTo(final ProbabilityContainer o) {
+    public int compareTo(ProbabilityContainer o) {
         if (mProbability > o.mProbability)
             return 1;
         else if (mProbability < o.mProbability)

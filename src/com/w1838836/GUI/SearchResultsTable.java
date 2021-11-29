@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class SearchResultsTable extends JTable {
-    private final DefaultTableModel mModel = new DefaultTableModel();
+    private DefaultTableModel mModel = new DefaultTableModel();
 
     /**
      * Default constructor.
@@ -17,7 +17,7 @@ public class SearchResultsTable extends JTable {
         setModel(mModel);
 
         // Set the titles.
-        final String[] titles = {"Race date", "Race status (type)", "Position"};
+        String[] titles = {"Race date", "Race status (type)", "Position"};
         for (String title : titles)
             mModel.addColumn(title);
     }
@@ -28,7 +28,7 @@ public class SearchResultsTable extends JTable {
      * @param name  The name of the driver.
      * @param races The races that took place in this season.
      */
-    public void searchAndDisplay(final String name, final ArrayList<Race> races) {
+    public void searchAndDisplay(String name, ArrayList<Race> races) {
         clear();
 
         for (Race race : races) {

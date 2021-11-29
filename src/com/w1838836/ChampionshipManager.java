@@ -50,7 +50,7 @@ public interface ChampionshipManager {
      *
      * @param bStatus The status, if the command comes from the GUI or CMD.
      */
-    void addRace(final boolean bStatus);
+    void addRace(boolean bStatus);
 
     /**
      * Add a new probabilistically won race.
@@ -77,7 +77,7 @@ public interface ChampionshipManager {
      * @param bShouldSort Whether to sort the data.
      * @return The dumped array.
      */
-    String[][] toArray(final boolean bShouldSort);
+    String[][] toArray(boolean bShouldSort);
 
     /**
      * Get all the stored races.

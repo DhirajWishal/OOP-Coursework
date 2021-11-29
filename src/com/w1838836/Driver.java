@@ -24,7 +24,7 @@ public abstract class Driver implements Serializable {
      * @param location The location of the driver,
      * @param team     The team of the driver.
      */
-    public Driver(final String name, final String location, final String team) {
+    public Driver(String name, String location, String team) {
         mName = name;
         mLocation = location;
         mTeam = team;
@@ -45,7 +45,7 @@ public abstract class Driver implements Serializable {
      *
      * @param name The name to set.
      */
-    public void setName(final String name) {
+    public void setName(String name) {
         mName = name;
     }
 
@@ -63,7 +63,7 @@ public abstract class Driver implements Serializable {
      *
      * @param location The location of the driver.
      */
-    public void setLocation(final String location) {
+    public void setLocation(String location) {
         mLocation = location;
     }
 
@@ -81,7 +81,7 @@ public abstract class Driver implements Serializable {
      *
      * @param team The team name to set.
      */
-    public void setTeam(final String team) {
+    public void setTeam(String team) {
         mTeam = team;
     }
 
@@ -99,7 +99,7 @@ public abstract class Driver implements Serializable {
      *
      * @param number The number of races to set.
      */
-    public void setRacesWon(final int number) {
+    public void setRacesWon(int number) {
         mRacesWon = number;
     }
 
@@ -116,7 +116,7 @@ public abstract class Driver implements Serializable {
      * @param race     The race ID of the race the driver participated in.
      * @param position The position of the driver in the given race.
      */
-    public void setRaceInfo(final Integer race, final int position) {
+    public void setRaceInfo(Integer race, int position) {
         mRaceMap.put(race, position);
     }
 
@@ -126,7 +126,7 @@ public abstract class Driver implements Serializable {
      * @param race The race ID to get the information from.
      * @return The position the driver won.
      */
-    public int getRaceInfo(final Integer race) {
+    public int getRaceInfo(Integer race) {
         return mRaceMap.get(race);
     }
 }

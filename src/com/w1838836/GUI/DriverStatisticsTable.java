@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriverStatisticsTable extends JTable {
-    private final DefaultTableModel mModel = new DefaultTableModel();
-    private final TableRowSorter<DefaultTableModel> mSorter = new TableRowSorter<>(mModel);
+    private DefaultTableModel mModel = new DefaultTableModel();
+    private TableRowSorter<DefaultTableModel> mSorter = new TableRowSorter<>(mModel);
     private boolean bSwitchSortingOrder = true;
 
     /**
@@ -20,16 +20,18 @@ public class DriverStatisticsTable extends JTable {
         setModel(mModel);
 
         // Set the column titles.
-        final String[] titles = {"Name", "Location", "Team", "Points", "# First places", "# Second places", "# Third places", "# Of races"};
+        String[] titles = {"Name", "Location", "Team", "Points", "# First places", "# Second places", "# Third places", "# Of races"};
         for (String title : titles)
             mModel.addColumn(title);
 
+        DriverDataComparator comparator = new DriverDataComparator();
+
         // Set the comparators for the relevant rows.
-        mSorter.setComparator(3, new DriverDataComparator());
-        mSorter.setComparator(4, new DriverDataComparator());
-        mSorter.setComparator(5, new DriverDataComparator());
-        mSorter.setComparator(6, new DriverDataComparator());
-        mSorter.setComparator(7, new DriverDataComparator());
+        mSorter.setComparator(3, comparator);
+        mSorter.setComparator(4, comparator);
+        mSorter.setComparator(5, comparator);
+        mSorter.setComparator(6, comparator);
+        mSorter.setComparator(7, comparator);
 
         // Set the row sorter.
         setRowSorter(mSorter);
@@ -65,7 +67,7 @@ public class DriverStatisticsTable extends JTable {
      *
      * @param rows The row data to set.
      */
-    public void setRows(final String[][] rows) {
+    public void setRows(String[][] rows) {
         mModel.setRowCount(0);
         for (String[] row : rows)
             mModel.addRow(row);

@@ -11,9 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class GraphicsConsole {
-    private final ChampionshipManager mManager;
-    private final DriverStatisticsTable mDriverStatisticsTable = new DriverStatisticsTable();
-    private final Window mWindow = new Window();
+    private ChampionshipManager mManager;
+    private DriverStatisticsTable mDriverStatisticsTable = new DriverStatisticsTable();
+    private Window mWindow = new Window();
 
     /**
      * Default constructor.
@@ -21,6 +21,7 @@ public class GraphicsConsole {
     public GraphicsConsole() {
         // Create the manager.
         mManager = ChampionshipFactory.createManager("Formula 1");
+        assert mManager != null;
 
         // Create the window and layout.
         UILayout layout = new UILayout(mWindow.getContentPane());
@@ -40,9 +41,9 @@ public class GraphicsConsole {
         SearchLabel searchText = new SearchLabel();
         DriverNameLabel driverName = new DriverNameLabel();
 
-        final int searchTextWidth = searchText.getPreferredSize().width;
-        final int probabilisticButtonWidth = probabilisticButton.getMinimumSize().width;
-        final int searchButtonHeight = searchButton.getPreferredSize().height;
+        int searchTextWidth = searchText.getPreferredSize().width;
+        int probabilisticButtonWidth = probabilisticButton.getMinimumSize().width;
+        int searchButtonHeight = searchButton.getPreferredSize().height;
 
         // Acts as columns.
         layout.setHorizontalGroup(
@@ -113,7 +114,7 @@ public class GraphicsConsole {
         });
 
         searchButton.addActionListener((ActionEvent e) -> {
-            final String textField = searchField.getText();
+            String textField = searchField.getText();
 
             if (textField.length() > 0) {
                 driverName.setText("Search results for: " + textField);
@@ -160,7 +161,7 @@ public class GraphicsConsole {
         boolean bShouldRun = true;
         while (bShouldRun) {
             mManager.showMenu();
-            final int command = mManager.getCommand();
+            int command = mManager.getCommand();
 
             switch (command) {
                 case 1 -> mManager.createNewDriver();

@@ -13,7 +13,7 @@ public class DriverDataComparator implements Comparator<String> {
      * first argument is less than the second and 0 if the two arguments are equal.
      */
     @Override
-    public int compare(final String s1, final String s2) {
+    public int compare(String s1, String s2) {
         try {
             int n1 = Integer.parseInt(s1);
             int n2 = Integer.parseInt(s2);

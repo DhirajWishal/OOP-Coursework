@@ -23,7 +23,7 @@ public class Race implements Comparable<Race>, Serializable {
      * @param status  The status of the race.
      * @param date    The date in which the race took place.
      */
-    public Race(final int ID, final ArrayList<Driver> drivers, final RaceStatus status, final Date date) {
+    public Race(int ID, ArrayList<Driver> drivers, RaceStatus status, Date date) {
         mID = ID;
         mDrivers = drivers;
         mStatus = status;
@@ -44,7 +44,7 @@ public class Race implements Comparable<Race>, Serializable {
      *
      * @param mID The race ID.
      */
-    public void setID(final int mID) {
+    public void setID(int mID) {
         this.mID = mID;
     }
 
@@ -62,7 +62,7 @@ public class Race implements Comparable<Race>, Serializable {
      *
      * @param mDrivers The drivers to set.
      */
-    public void setDrivers(final ArrayList<Driver> mDrivers) {
+    public void setDrivers(ArrayList<Driver> mDrivers) {
         this.mDrivers = mDrivers;
     }
 
@@ -80,7 +80,7 @@ public class Race implements Comparable<Race>, Serializable {
      *
      * @param mStatus The status to set.
      */
-    public void setStatus(final RaceStatus mStatus) {
+    public void setStatus(RaceStatus mStatus) {
         this.mStatus = mStatus;
     }
 
@@ -98,7 +98,7 @@ public class Race implements Comparable<Race>, Serializable {
      *
      * @param mDate The date to set.
      */
-    public void setDate(final Date mDate) {
+    public void setDate(Date mDate) {
         this.mDate = mDate;
     }
 
@@ -109,7 +109,7 @@ public class Race implements Comparable<Race>, Serializable {
      * @return The compared result.
      */
     @Override
-    public int compareTo(final Race race) {
+    public int compareTo(Race race) {
         return mDate.compareTo(race.getDate());
     }
 }
