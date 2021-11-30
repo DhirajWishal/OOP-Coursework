@@ -12,7 +12,7 @@ public class RaceTable extends JTable {
         setModel(model);
 
         // Set the column titles.
-        String[] titles = {"Date", "Status (Type)"};
+        String[] titles = {"Date", "Status (Type)", "First place", "Second place", "Third place"};
         for (String title : titles)
             model.addColumn(title);
 

@@ -216,7 +216,7 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
             // Validate the index and remove the driver.
             if (index >= 0 && index < mDrivers.size()) {
                 // Get the formula 1 driver.
-                Formula1Driver driver = (Formula1Driver) mDrivers.get(index);
+                Formula1Driver driver = mDrivers.get(index);
 
                 System.out.println("Driver index:                " + index);
                 System.out.println("Driver name:                 " + driver.getName());
@@ -278,6 +278,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      */
     @Override
     public void addRace(boolean bStatus) {
+        // Validate if there are no drivers.
+        if (mDrivers.isEmpty()) {
+            System.out.println("Three are no drivers to participate in a race!");
+            return;
+        }
+
         mRandom.setSeed((new Date().getTime()));
         int raceID = generateRaceID();
 
@@ -350,6 +356,12 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
      */
     @Override
     public void addRaceProbabilistically() {
+        // Validate if there are no drivers.
+        if (mDrivers.isEmpty()) {
+            System.out.println("Three are no drivers to participate in a race!");
+            return;
+        }
+
         mRandom.setSeed((new Date().getTime()));
 
         int raceID = generateRaceID();
@@ -434,6 +446,9 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     public void saveData(boolean bShouldWarn) {
         try {
             File temporaryFile = new File("Serialize/Formula1.bin");
+
+            // Make sure to create the directory and file if they don't exist.
+            temporaryFile.mkdirs();
             temporaryFile.createNewFile();
 
             FileOutputStream outputStream = new FileOutputStream(temporaryFile, false);
@@ -527,6 +542,22 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     }
 
     /**
+     * Get the driver's name who won a certain position in a given race.
+     *
+     * @param race     The race to search in.
+     * @param position The position to find.
+     * @return The name of the driver. It will return an empty string if a driver name was not found.
+     */
+    private String getRacePositionWinner(Race race, int position) {
+        for (Driver driver : race.getDrivers()) {
+            if (driver.getRaceInfo(race.getID()) == position)
+                return driver.getName();
+        }
+
+        return "";
+    }
+
+    /**
      * Convert the race data into a 2D string.
      *
      * @return The converted 2D string.
@@ -537,12 +568,15 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
         ArrayList<Race> list = new ArrayList<>(mRaces);
         list.sort(Collections.reverseOrder());
 
-        String[][] array = new String[mRaces.size()][2];
+        String[][] array = new String[mRaces.size()][5];
         for (int i = 0; i < list.size(); i++) {
             Race race = mRaces.get(i);
 
             array[i][0] = race.getDate().toString();
             array[i][1] = race.getStatus().toString();
+            array[i][2] = getRacePositionWinner(race, 1);
+            array[i][3] = getRacePositionWinner(race, 2);
+            array[i][4] = getRacePositionWinner(race, 3);
         }
 
         return array;

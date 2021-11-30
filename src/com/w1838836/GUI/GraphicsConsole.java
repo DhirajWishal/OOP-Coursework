@@ -115,7 +115,6 @@ public class GraphicsConsole {
 
         searchButton.addActionListener((ActionEvent e) -> {
             String textField = searchField.getText();
-            searchField.clear();
 
             if (textField.length() > 0) {
                 if (searchResultsTable.searchAndDisplay(searchField.getText(), mManager.getRaces()))
@@ -126,6 +125,8 @@ public class GraphicsConsole {
                 driverName.clear();
                 searchResultsTable.clear();
             }
+
+            searchField.clear();
         });
 
         // Load the serialized data if possible.
