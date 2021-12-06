@@ -23,6 +23,14 @@ public class GraphicsConsole {
         mManager = ChampionshipFactory.createManager("Formula 1");
         assert mManager != null;
 
+        // Set up the UI.
+        setupUIComponents();
+    }
+
+    /**
+     * Set up all the UI components.
+     */
+    private void setupUIComponents() {
         // Create the window and layout.
         UILayout layout = new UILayout(mWindow.getContentPane());
         mWindow.getContentPane().setLayout(layout);
