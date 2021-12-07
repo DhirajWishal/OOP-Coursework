@@ -3,7 +3,7 @@ package com.w1838836.GUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class RaceTable extends JTable {
+public class RaceTable extends ScrollableTable {
     /**
      * Default constructor.
      */

@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
-public class SearchResultsTable extends JTable {
+public class SearchResultsTable extends ScrollableTable {
     private Window mParent = null;
     private DefaultTableModel mModel = new DefaultTableModel();
 

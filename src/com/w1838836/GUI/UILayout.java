@@ -51,14 +51,14 @@ public class UILayout extends GroupLayout {
                 createSequentialGroup()
                         .addGroup(createParallelGroup(UILayout.Alignment.LEADING)
                                 .addComponent(mDriverStatisticsTable.getTableHeader())
-                                .addComponent(mDriverStatisticsTable)
+                                .addComponent(mDriverStatisticsTable.getPane())
                                 .addGroup(createSequentialGroup()
                                         .addComponent(mSearchText, searchTextWidth, searchTextWidth, searchTextWidth)
                                         .addComponent(mSearchField)
                                 )
                                 .addComponent(mDriverName)
                                 .addComponent(mSearchResultsTable.getTableHeader())
-                                .addComponent(mSearchResultsTable)
+                                .addComponent(mSearchResultsTable.getPane())
                         )
                         .addGroup(createParallelGroup(UILayout.Alignment.LEADING)
                                 .addComponent(mRandomButton, probabilisticButtonWidth, probabilisticButtonWidth, probabilisticButtonWidth)
@@ -75,7 +75,7 @@ public class UILayout extends GroupLayout {
                                 .addComponent(mDriverStatisticsTable.getTableHeader())
                         )
                         .addGroup(createParallelGroup(UILayout.Alignment.LEADING)
-                                .addComponent(mDriverStatisticsTable)
+                                .addComponent(mDriverStatisticsTable.getPane())
                                 .addGroup(createSequentialGroup()
                                         .addComponent(mRandomButton)
                                         .addComponent(mProbabilisticButton)
@@ -89,7 +89,7 @@ public class UILayout extends GroupLayout {
                         )
                         .addComponent(mDriverName)
                         .addComponent(mSearchResultsTable.getTableHeader())
-                        .addComponent(mSearchResultsTable)
+                        .addComponent(mSearchResultsTable.getPane())
         );
 
         // Set up the listeners.
@@ -122,8 +122,8 @@ public class UILayout extends GroupLayout {
             Window raceInfoWindow = new Window("Race Data");
             raceInfoWindow.setLayout(new BorderLayout());
             raceInfoWindow.add(table.getTableHeader(), BorderLayout.NORTH);
-            raceInfoWindow.add(table, BorderLayout.CENTER);
-            raceInfoWindow.setSize(table.getPreferredSize());
+            raceInfoWindow.add(table.getPane(), BorderLayout.CENTER);
+            raceInfoWindow.setSize(1280, 720);
             raceInfoWindow.setVisible(true);
         });
 

@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverStatisticsTable extends JTable {
+public class DriverStatisticsTable extends ScrollableTable {
     private DefaultTableModel mModel = new DefaultTableModel();
     private TableRowSorter<DefaultTableModel> mSorter = new TableRowSorter<>(mModel);
     private boolean bSwitchSortingOrder = true;

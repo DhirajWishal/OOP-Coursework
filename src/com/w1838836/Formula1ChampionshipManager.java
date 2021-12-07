@@ -131,21 +131,35 @@ public class Formula1ChampionshipManager implements ChampionshipManager, Seriali
     }
 
     /**
+     * Create a padding string by adding spaces to a string.
+     *
+     * @param count The number of spaces to add.
+     * @return The padding string.
+     */
+    private String createPadding(int count) {
+        return "" + " ".repeat(Math.max(0, count));
+    }
+
+    /**
      * Display information about all the registered drivers.
      */
     @Override
     public void displayDrivers() {
         System.out.println("Displaying drivers.");
-        System.out.println("Index\tName\tLocation\tTeam");
+        System.out.println("--------------------------------------------------------------------");
+        System.out.println("Index   Name                Location            Team");
+        System.out.println("--------------------------------------------------------------------");
+
         for (int i = 0; i < mDrivers.size(); i++) {
             Formula1Driver driver = mDrivers.get(i);
 
-            System.out.print(i + "\t");
-            System.out.print(driver.getName() + "\t");
-            System.out.print(driver.getLocation() + "\t");
-            System.out.print(driver.getTeam() + "\t");
-            System.out.println();
+            System.out.print(i + "\t\t");
+            System.out.print(driver.getName() + createPadding(20 - driver.getName().length()));
+            System.out.print(driver.getLocation() + createPadding(20 - driver.getLocation().length()));
+            System.out.println(driver.getTeam());
         }
+
+        System.out.println("--------------------------------------------------------------------");
     }
 
     /**
