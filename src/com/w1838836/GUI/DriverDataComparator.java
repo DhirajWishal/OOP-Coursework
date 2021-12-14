@@ -18,12 +18,7 @@ public class DriverDataComparator implements Comparator<String> {
             int n1 = Integer.parseInt(s1);
             int n2 = Integer.parseInt(s2);
 
-            if (n1 > n2)
-                return 1;
-            else if (n1 < n2)
-                return -1;
-
-            return 0;
+            return n2 - n1;
         } catch (NumberFormatException e) {
             return s1.compareTo(s2);
         }

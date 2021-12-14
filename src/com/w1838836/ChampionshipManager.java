@@ -6,70 +6,70 @@ public interface ChampionshipManager {
     /**
      * Show the championship menu.
      */
-    void showMenu();
+    public void showMenu();
 
     /**
      * Get a new command from the user.
      *
      * @return The selected command.
      */
-    int getCommand();
+    public int getCommand();
 
     /**
      * Create a new driver.
      */
-    void createNewDriver();
+    public void createNewDriver();
 
     /**
      * Display all the drivers.
      */
-    void displayDrivers();
+    public void displayDrivers();
 
     /**
      * Delete a driver from the championship.
      */
-    void deleteDriver();
+    public void deleteDriver();
 
     /**
      * Change a driver team.
      */
-    void changeDriver();
+    public void changeDriver();
 
     /**
      * Display driver statistics.
      */
-    void displayStatistics();
+    public void displayStatistics();
 
     /**
      * Display the driver table.
      */
-    void displayDriverTable();
+    public void displayDriverTable();
 
     /**
      * Add a new race.
      *
      * @param bStatus The status, if the command comes from the GUI or CMD.
      */
-    void addRace(boolean bStatus);
+    public void addRace(boolean bStatus);
 
     /**
      * Add a new probabilistically won race.
      */
-    void addRaceProbabilistically();
+    public void addRaceProbabilistically();
 
     /**
      * Save data to a local file.
      *
      * @param bShouldWarn Whether to show the user if there was an error.
      */
-    void saveData(boolean bShouldWarn);
+    public void saveData(boolean bShouldWarn);
 
     /**
      * Load the application data to a local file.
      *
      * @param bShouldWarn Whether to show the user if there was an error.
      */
-    void loadData(boolean bShouldWarn);
+    public void loadData(boolean bShouldWarn);
 
     /**
      * Convert the data to a 2D array.
@@ -77,19 +77,19 @@ public interface ChampionshipManager {
      * @param bShouldSort Whether to sort the data.
      * @return The dumped array.
      */
-    String[][] toArray(boolean bShouldSort);
+    public String[][] toArray(boolean bShouldSort);
 
     /**
      * Get all the stored races.
      *
      * @return The races.
      */
-    ArrayList<Race> getRaces();
+    public ArrayList<Race> getRaces();
 
     /**
      * Covert the race data to a 2D array.
      *
      * @return The dumped array.
      */
-    String[][] raceToArray();
+    public String[][] raceToArray();
 }
